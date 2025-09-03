@@ -6,7 +6,7 @@ import Checkout from "./pages/Checkout";
 import AddProduct from "./pages/AddProduct";
 import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaHome, FaPlus } from "react-icons/fa";
 
 function App() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -14,34 +14,68 @@ function App() {
 
   return (
     <Router>
-      <nav className="flex items-center justify-between p-4 bg-gray-200">
-        {/* Left side */}
-        <div className="flex gap-4">
-          <Link to="/">Home</Link>
-          <Link to="/add-product">Add Product</Link>
-        </div>
-
-        {/* Right side - Cart with badge */}
-        <div className="relative">
-          <Link to="/cart" className="flex items-center">
-            <FaShoppingCart size={24} />
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                {cartCount}
-              </span>
-            )}
-          </Link>
+      {/* ✅ Enhanced Navigation Bar */}
+      <nav className="bg-white shadow-lg border-b sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link to="/" className="flex items-center space-x-2">
+              <span className="text-2xl font-bold text-blue-600">Ammajaan</span>
+            </Link>
+            
+            {/* Navigation Links */}
+            <div className="flex items-center space-x-6">
+              <Link 
+                to="/" 
+                className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              >
+                <FaHome />
+                <span>Home</span>
+              </Link>
+              
+              <Link 
+                to="/add-product" 
+                className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              >
+                <FaPlus />
+                <span>Add Product</span>
+              </Link>
+              
+              <Link 
+                to="/cart" 
+                className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors duration-200 relative"
+              >
+                <FaShoppingCart />
+                <span>Cart</span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+          </div>
         </div>
       </nav>
 
       {/* ✅ Toast container */}
-      <Toaster position="top-right" />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+        }}
+      />
 
+      {/* Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/add-product" element={<AddProduct />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/add-product" element={<AddProduct />} />
       </Routes>
     </Router>
   );
